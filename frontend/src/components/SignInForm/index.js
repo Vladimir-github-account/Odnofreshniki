@@ -1,56 +1,79 @@
-import React, { Component }        from 'react';
-import { Form, Field, withFormik } from 'formik';
-import Input                       from '../Input';
-import * as yup                    from 'yup';
+import React                                     from 'react';
+import { Form, Field, withFormik, ErrorMessage } from 'formik';
+import Input                                     from '../Input';
+import * as Yup                                  from 'yup';
+import styles                                    from './SignIn.module.sass';
+import {
+  mdiLockOutline,
+  mdiEmailOutline,
+  mdiAccountBox
+}                                                from '@mdi/js';
 
-const emailSchema = yup.string().email().required();
+const emailSchema = Yup.string()
+    .email( 'must be a email' )
+    .required( 'required' );
+const passwordSchema = Yup.string()
+    .length( 8, 'Must be at longer than 8' )
+    .required( 'required' );
 
 const handleSubmit = (values) => {
   console.log( values );
 };
 
 const SignInForm = (props) => {
-
   const emailValidate = async (value) => {
-    try {
-      await emailSchema.validate( value ).catch( e => {
-        console.log( 'e' );
-        console.dir( e );
-        return e.message;
-      } );
-    } catch (e) {
-
-    }
+    let error;
+    await emailSchema.validate( value ).catch( e => {
+      error = e.message;
+    } );
+    return error;
   };
-
-  console.log( props );
+  const passwordValidate = async (value) => {
+    let error;
+    await passwordSchema.validate( value ).catch( e => {
+      error = e.message;
+    } );
+    return error;
+  };
   return (
-      <Form>
-        <Field type='test'
+      <Form className={styles.signInForm}>
+        <Field type='text'
                name='email'
                validate={emailValidate}>
           {
-            (fieldProps) => ( <Input {...fieldProps} label={'Test test: '}/> )
+            (fieldProps) => ( <Input {...fieldProps}
+                                     label={'Email: '}
+                                     placeholder='E-mail'
+                                     icon={mdiEmailOutline}
+                                     autoFocus={true}/> )
           }
         </Field>
         <Field type='password'
                name='password'
-               test='test'
-               component={Input}/>
-        <div onClick={props.submitForm}>Login</div>
+               validate={passwordValidate}>
+          {
+            (fieldProps) => ( <Input {...fieldProps}
+                                     type='password'
+                                     placeholder='Password'
+                                     icon={mdiLockOutline}
+                                     label={'Password: '}/> )
+          }
+        </Field>
+        <div onClick={props.submitForm}
+        className={styles.signInButton}>Login</div>
       </Form>
   );
 };
 
 export default withFormik( {
-                             mapPropsToValues: () => ( {
-                               email: '',
-                               password: ''
-                             } ),
-                             initialValues: {
-                               email: '',
-                               password: '',
-                             },
-                             handleSubmit,
+  mapPropsToValues: () => ( {
+    email: '',
+    password: ''
+  } ),
+  initialValues: {
+    email: '',
+    password: '',
+  },
+  handleSubmit,
 
-                           } )( SignInForm );
+} )( SignInForm );

@@ -1,19 +1,27 @@
 .label
   position: relative
+  display: flex
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2)
+  padding-bottom: 5px
 
 .input
   border: unset
+  padding: 5px
+  width: 100%
 
 .validInput
-  border: 1px solid green
-
+  border-color: green
 
 .invalidInput
-  border: 1px solid red
+  border-color: red
 
 .errorTip
   position: absolute
+  top: 34px
   z-index: 1
-  color: white
-  background-color: black
-  padding: 20px
+  color: #000000
+  padding: 2px 29px
+
+.iconWrapper
+  display: flex
+  align-items: center
