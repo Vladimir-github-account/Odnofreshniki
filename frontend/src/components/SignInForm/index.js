@@ -1,5 +1,5 @@
 import React                                     from 'react';
-import { Form, Field, withFormik, ErrorMessage } from 'formik';
+import { Form, Field, withFormik } from 'formik';
 import Input                                     from '../Input';
 import * as Yup                                  from 'yup';
 import styles                                    from './SignIn.module.sass';
@@ -11,10 +11,10 @@ import {
 
 const emailSchema = Yup.string()
     .email( 'must be a email' )
-    .required( 'required' );
+    .required( 'This field is required' );
 const passwordSchema = Yup.string()
-    .length( 8, 'Must be at longer than 8' )
-    .required( 'required' );
+    .required( 'This field is required' )
+    .min( 8, 'Must be at longer than 8' );
 
 const handleSubmit = (values) => {
   console.log( values );
@@ -41,26 +41,31 @@ const SignInForm = (props) => {
                name='email'
                validate={emailValidate}>
           {
-            (fieldProps) => ( <Input {...fieldProps}
-                                     label={'Email: '}
-                                     placeholder='E-mail'
-                                     icon={mdiEmailOutline}
-                                     autoFocus={true}/> )
+            (fieldProps) => (
+                <Input {...fieldProps}
+                       label={'Email: '}
+                       placeholder='E-mail'
+                       icon={mdiEmailOutline}
+                       autoFocus={true}/>
+            )
           }
         </Field>
         <Field type='password'
                name='password'
                validate={passwordValidate}>
           {
-            (fieldProps) => ( <Input {...fieldProps}
-                                     type='password'
-                                     placeholder='Password'
-                                     icon={mdiLockOutline}
-                                     label={'Password: '}/> )
+            (fieldProps) => (
+                <Input {...fieldProps}
+                       type='password'
+                       placeholder='Password'
+                       icon={mdiLockOutline}
+                       label={'Password: '}/>
+            )
           }
         </Field>
         <div onClick={props.submitForm}
-        className={styles.signInButton}>Login</div>
+             className={styles.signInButton}>Login
+        </div>
       </Form>
   );
 };
