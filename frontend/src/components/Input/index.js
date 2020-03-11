@@ -5,9 +5,10 @@ import styles           from './Input.module.sass';
 import Icon             from '@mdi/react';
 
 function Input(props) {
-  console.log( props );
-
-  const { field, form, meta, icon, type, placeholder, onChange, onSubmit, autoFocus, ...rest } = props;
+  const {
+    field, form, meta, icon, type, placeholder, onChange, onSubmit, autoFocus,
+    changeViewButton
+  } = props;
   const { error, value } = meta;
   const labelStyles = classNames(
       styles.label,
@@ -30,6 +31,7 @@ function Input(props) {
                autoFocus={autoFocus}
                placeholder={placeholder}
                {...field}/>
+        {changeViewButton}
         <ErrorMessage className={styles.errorTip}
                       component='div'
                       name={field.name}/>

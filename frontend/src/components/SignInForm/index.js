@@ -1,13 +1,14 @@
-import React                                     from 'react';
+import React                       from 'react';
 import { Form, Field, withFormik } from 'formik';
-import Input                                     from '../Input';
-import * as Yup                                  from 'yup';
-import styles                                    from './SignIn.module.sass';
+import Input                       from '../Input';
+import PasswordInput               from '../PasswordInput';
+import * as Yup                    from 'yup';
+import styles                      from './SignIn.module.sass';
 import {
   mdiLockOutline,
   mdiEmailOutline,
   mdiAccountBox
-}                                                from '@mdi/js';
+}                                  from '@mdi/js';
 
 const emailSchema = Yup.string()
     .email( 'must be a email' )
@@ -55,11 +56,10 @@ const SignInForm = (props) => {
                validate={passwordValidate}>
           {
             (fieldProps) => (
-                <Input {...fieldProps}
-                       type='password'
-                       placeholder='Password'
-                       icon={mdiLockOutline}
-                       label={'Password: '}/>
+                <PasswordInput {...fieldProps}
+                               placeholder='Password'
+                               icon={mdiLockOutline}
+                               label={'Password: '}/>
             )
           }
         </Field>
