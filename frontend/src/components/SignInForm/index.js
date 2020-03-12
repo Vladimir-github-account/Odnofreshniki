@@ -36,35 +36,40 @@ const SignInForm = (props) => {
     } );
     return error;
   };
+
+  const { signInButton, signInForm, fieldsWrapper } = styles;
+
   return (
-      <Form className={styles.signInForm}>
-        <Field type='text'
-               name='email'
-               validate={emailValidate}>
-          {
-            (fieldProps) => (
-                <Input {...fieldProps}
-                       label={'Email: '}
-                       placeholder='E-mail'
-                       icon={mdiEmailOutline}
-                       autoFocus={true}/>
-            )
-          }
-        </Field>
-        <Field type='password'
-               name='password'
-               validate={passwordValidate}>
-          {
-            (fieldProps) => (
-                <PasswordInput {...fieldProps}
-                               placeholder='Password'
-                               icon={mdiLockOutline}
-                               label={'Password: '}/>
-            )
-          }
-        </Field>
+      <Form className={signInForm}>
+        <div className={fieldsWrapper}>
+          <Field type='text'
+                 name='email'
+                 validate={emailValidate}>
+            {
+              (fieldProps) => (
+                  <Input {...fieldProps}
+                         label={'Email: '}
+                         placeholder='E-mail'
+                         icon={mdiEmailOutline}
+                         autoFocus={true}/>
+              )
+            }
+          </Field>
+          <Field type='password'
+                 name='password'
+                 validate={passwordValidate}>
+            {
+              (fieldProps) => (
+                  <PasswordInput {...fieldProps}
+                                 placeholder='Password'
+                                 icon={mdiLockOutline}
+                                 label={'Password: '}/>
+              )
+            }
+          </Field>
+        </div>
         <div onClick={props.submitForm}
-             className={styles.signInButton}>Login
+             className={signInButton}>Login
         </div>
       </Form>
   );
