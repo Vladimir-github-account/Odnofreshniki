@@ -8,43 +8,20 @@ import {
   mdiLockOutline,
   mdiEmailOutline,
   mdiAccountBox
-}                                  from '@mdi/js';
-
-const emailSchema = Yup.string()
-    .email( 'must be a email' )
-    .required( 'This field is required' );
-const passwordSchema = Yup.string()
-    .required( 'This field is required' )
-    .min( 8, 'Must be at longer than 8' );
+}                     from '@mdi/js';
+import { formSchema } from '../../validationSchema';
 
 const handleSubmit = (values) => {
   console.log( values );
 };
 
 const SignInForm = (props) => {
-  const emailValidate = async (value) => {
-    let error;
-    await emailSchema.validate( value ).catch( e => {
-      error = e.message;
-    } );
-    return error;
-  };
-  const passwordValidate = async (value) => {
-    let error;
-    await passwordSchema.validate( value ).catch( e => {
-      error = e.message;
-    } );
-    return error;
-  };
-
   const { signInButton, signInForm, fieldsWrapper } = styles;
-
   return (
       <Form className={signInForm}>
         <div className={fieldsWrapper}>
           <Field type='text'
-                 name='email'
-                 validate={emailValidate}>
+                 name='email'>
             {
               (fieldProps) => (
                   <Input {...fieldProps}
@@ -56,8 +33,7 @@ const SignInForm = (props) => {
             }
           </Field>
           <Field type='password'
-                 name='password'
-                 validate={passwordValidate}>
+                 name='password'>
             {
               (fieldProps) => (
                   <PasswordInput {...fieldProps}
@@ -84,6 +60,7 @@ export default withFormik( {
     email: '',
     password: '',
   },
+  validationSchema: formSchema,
   handleSubmit,
 
 } )( SignInForm );

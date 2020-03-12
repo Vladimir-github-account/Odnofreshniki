@@ -1,5 +1,7 @@
 import React, { Component, lazy, Suspense }       from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { THEME_MODE }                             from './constants/enums.js';
+import AppContext                                 from './state';
 
 const HomePage = lazy( () => import('./pages/HomePage.js') );
 const SignInPage = lazy( () => import ('./pages/SignInPage.js') );
@@ -8,30 +10,18 @@ const TestPage = lazy( () => import('./pages/TestListPage.js') );
 
 const fallbackElem = <div>Loading...</div>;
 
-export const ThemeContext = React.createContext( 'light' );
-
 class App extends Component {
-  constructor(props) {
-    super( props );
-    this.state = {
-      theme: 'light',
-    };
-  }
-
-  changeTheme = () => {
-    this.setState( state => ( {
-      theme: state.theme === 'light'
-          ? 'dark'
-          : 'light'
-    } ) );
+  state = {
+    theme: THEME_MODE.LIGHT
   };
 
   render() {
+    const contextValue = {
+      state: this.state,
+      setState: this.setState.bind( this )
+    };
     return (
-        <ThemeContext.Provider value={{
-          changeTheme: this.changeTheme,
-          theme: this.state.theme,
-        }}>
+        <AppContext.Provider value={contextValue}>
           <Router>
             <Suspense fallback={fallbackElem}>
               <Switch>
@@ -42,7 +32,7 @@ class App extends Component {
               </Switch>
             </Suspense>
           </Router>
-        </ThemeContext.Provider>
+        </AppContext.Provider>
     );
   }
 

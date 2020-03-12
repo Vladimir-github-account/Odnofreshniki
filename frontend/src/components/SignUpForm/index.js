@@ -2,58 +2,25 @@ import React                       from 'react';
 import { Form, Field, withFormik } from 'formik';
 import Input                       from '../Input';
 import PasswordInput               from '../PasswordInput';
-import * as Yup                    from 'yup';
 import styles                      from './SignUp.module.sass';
 import {
   mdiAccountCircle,
   mdiLockOutline,
   mdiEmailOutline,
-  mdiAccountBox
-}                                  from '@mdi/js';
-
-const nameSchema = Yup.string()
-    .required( 'This field is required' );
-const emailSchema = Yup.string()
-    .email( 'must be a email' )
-    .required( 'This field is required' );
-const passwordSchema = Yup.string()
-    .required( 'This field is required' )
-    .min( 8, 'Must be at longer than 8' );
+}                     from '@mdi/js';
+import { formSchema } from '../../validationSchema';
 
 const handleSubmit = (values) => {
   console.log( values );
 };
 
 const SignUpForm = (props) => {
-  const nameValidate = async (value) => {
-    let error;
-    await nameSchema.validate( value ).catch( e => {
-      error = e.message;
-    } );
-    return error;
-  };
-  const emailValidate = async (value) => {
-    let error;
-    await emailSchema.validate( value ).catch( e => {
-      error = e.message;
-    } );
-    return error;
-  };
-  const passwordValidate = async (value) => {
-    let error;
-    await passwordSchema.validate( value ).catch( e => {
-      error = e.message;
-    } );
-    return error;
-  };
-
   const { signUpButton, signUpForm } = styles;
 
   return (
       <Form className={signUpForm}>
         <Field type='text'
-               name='firstName'
-               validate={nameValidate}>
+               name='firstName'>
           {
             (fieldProps) => (
                 <Input {...fieldProps}
@@ -65,8 +32,7 @@ const SignUpForm = (props) => {
           }
         </Field>
         <Field type='text'
-               name='lastName'
-               validate={nameValidate}>
+               name='lastName'>
           {
             (fieldProps) => (
                 <Input {...fieldProps}
@@ -77,8 +43,7 @@ const SignUpForm = (props) => {
           }
         </Field>
         <Field type='text'
-               name='email'
-               validate={emailValidate}>
+               name='email'>
           {
             (fieldProps) => (
                 <Input {...fieldProps}
@@ -89,8 +54,7 @@ const SignUpForm = (props) => {
           }
         </Field>
         <Field type='password'
-               name='password'
-               validate={passwordValidate}>
+               name='password'>
           {
             (fieldProps) => (
                 <PasswordInput {...fieldProps}
@@ -101,8 +65,7 @@ const SignUpForm = (props) => {
           }
         </Field>
         <Field type='password'
-               name='verifyPassword'
-               validate={passwordValidate}>
+               name='verifyPassword'>
           {
             (fieldProps) => (
                 <PasswordInput {...fieldProps}
@@ -135,6 +98,7 @@ export default withFormik( {
     password: '',
     verifyPassword: ''
   },
+  validationSchema: formSchema,
   handleSubmit,
 
 } )( SignUpForm );
